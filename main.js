@@ -20,7 +20,7 @@ class TodoList {
 }
 
 @observer
-class TodoListView extends Component {
+class TodoListView extends Component {    
     render() {
         return (
             <div>
@@ -30,9 +30,9 @@ class TodoListView extends Component {
                 )}
             </ul>
             {this.props.todoList.unfinishedTodoCount == 0 ?
-            <span>All tasks are complete!</span>
+            <span><h3>All tasks are complete!</h3></span>
             :
-            <span>Tasks left: {this.props.todoList.unfinishedTodoCount}</span>
+            <span><h3>Tasks left: {this.props.todoList.unfinishedTodoCount}</h3></span>
             }
         </div>
         );
@@ -58,7 +58,8 @@ const store = new TodoList();
 store.todos.push(
     new Todo("Get Coffee"),
     new Todo("Write simpler code"),
-    new Todo("Learn Mobx")
+    new Todo("Learn Mobx"),
+    new Todo("Learn React Native")
 );
 
 ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('mount'));
