@@ -12,6 +12,10 @@ class Todo {
     
     constructor(title) {
         this.title = title;
+        this.reset();
+    }
+    reset (){
+        this.finished = false;
     }
 }
 
@@ -23,33 +27,38 @@ class TodoList {
 }
 
 @observer
-class TodoListView extends Component {    
+class TodoListView extends Component {  
+    resetAllTheThings (){
+        this.props.todoList.todos.map((todo) => todo.reset());
+    }  
     render() {
         return (
-            <div>
+            <div className="col-md-offset-2" style={appStyle}>
                 <div className="row">
-                    <h4 className="col-md-4 col-md-offset-8">Checklist</h4>
+                    <div className="col-md-8">
+                        {this.props.todoList.unfinishedTodoCount == 0 ?                    
+                        <span><h4><label className="alert alert-success">All tasks are complete!</label></h4><i className="glyphicon glyphicon-ok" style={{color: 'green', fontSize: 40}}></i></span>                                                                            
+                        :
+                        <span><h3>Tasks left <span className="badge" style={{fontSize: 24}}>{this.props.todoList.unfinishedTodoCount}</span></h3><hr /></span>
+                        }
+                    </div>                    
                 </div>
-                <div className="col-md-8">
-                    <ul className="list-group">
-                        {this.props.todoList.todos.map(todo => 
-                            <TodoView todo={todo} key={todo.id} />
-                        )}
-                    </ul>
-                    {this.props.todoList.unfinishedTodoCount == 0 ?
-                    <span><h4>All tasks are complete!</h4>&nbsp;
-                        <i className="glyphicon glyphicon-ok" style={{color: 'green', height: 20, width: 20}}></i>
-                    </span>
-                    :
-                    <span><h3>Tasks left: {this.props.todoList.unfinishedTodoCount}</h3></span>
-                    }
-                    <br />
-                    <button 
-                        className="btn btn-primary" 
-                        disabled={this.props.todoList.unfinishedTodoCount > 0}
-                    >
-                        Reset
-                    </button>
+                <div className="row">
+                    <div className="col-md-8">
+                        <ul className="list-group">
+                            {this.props.todoList.todos.map(todo => 
+                                <TodoView todo={todo} key={todo.id} />
+                            )}
+                        </ul>
+                        
+                        <br />
+                        <button 
+                            className="btn btn-primary btn-block" 
+                            disabled={this.props.todoList.unfinishedTodoCount > 0}
+                            onClick={this.resetAllTheThings.bind(this)}>                    
+                            Reset All
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -62,7 +71,7 @@ const TodoView = observer(({todo}) =>
             type="checkbox"
             checked={todo.finished}
             onClick={() => todo.finished = !todo.finished}
-            style={{width: 15, height: 15}}
+            style={{width: 20, height: 20}}
         />&nbsp;{todo.finished ? 
         	<span className="text-muted" style={{backgroundColor: '#d3d3d3'}}>{todo.title}</span>
             : 
@@ -77,6 +86,9 @@ data.map((item) => store.todos.push(new Todo(item.title)));
 
 const style = {
     listStyle: 'none'
+};
+const appStyle = {
+    verticalAlign: 'middle'
 };
 
 ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('content'));
