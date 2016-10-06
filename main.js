@@ -37,9 +37,9 @@ class TodoListView extends Component {
                 <div className="row">
                     <div className="col-md-8">
                         {this.props.todoList.unfinishedTodoCount == 0 ?                    
-                        <span><h4><label className="alert alert-success">All tasks are complete!</label></h4><i className="glyphicon glyphicon-ok" style={{color: 'green', fontSize: 40}}></i></span>                                                                            
+                        <span><h3>All tasks are complete!&nbsp;<i className="glyphicon glyphicon-ok" style={{color: 'green', fontSize: 24}}></i></h3><hr /></span>                                                                            
                         :
-                        <span><h3>Tasks left <span className="badge" style={{fontSize: 24}}>{this.props.todoList.unfinishedTodoCount}</span></h3><hr /></span>
+                        <span><h3>Tasks left <span className="label label-default label-as-badge" style={{fontSize: 24}}>{this.props.todoList.unfinishedTodoCount}</span></h3><hr /></span>
                         }
                     </div>                    
                 </div>
@@ -55,8 +55,10 @@ class TodoListView extends Component {
                         <button 
                             className="btn btn-primary btn-block" 
                             disabled={this.props.todoList.unfinishedTodoCount > 0}
-                            onClick={this.resetAllTheThings.bind(this)}>                    
-                            Reset All
+                            onClick={this.resetAllTheThings.bind(this)}
+                            style={{fontSize: 20}}
+                            >                                               
+                            Reset&nbsp;&nbsp;<i className="glyphicon glyphicon-refresh" style={{fontSize: 20}}></i>
                         </button>
                     </div>
                 </div>
@@ -71,8 +73,8 @@ const TodoView = observer(({todo}) =>
             type="checkbox"
             checked={todo.finished}
             onClick={() => todo.finished = !todo.finished}
-            style={{width: 20, height: 20}}
-        />&nbsp;{todo.finished ? 
+            style={{width: 18, height: 18}}
+        />&nbsp;&nbsp;{todo.finished ? 
         	<span className="text-muted" style={{backgroundColor: '#d3d3d3'}}>{todo.title}</span>
             : 
             <span>{todo.title}</span>
