@@ -30,17 +30,26 @@ class TodoListView extends Component {
                 <div className="row">
                     <h4 className="col-md-4 col-md-offset-8">Checklist</h4>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-8">
                     <ul className="list-group">
                         {this.props.todoList.todos.map(todo => 
                             <TodoView todo={todo} key={todo.id} />
                         )}
                     </ul>
                     {this.props.todoList.unfinishedTodoCount == 0 ?
-                    <span><h3>All tasks are complete!</h3></span>
+                    <span><h4>All tasks are complete!</h4>&nbsp;
+                        <i className="glyphicon glyphicon-ok" style={{color: 'green', height: 20, width: 20}}></i>
+                    </span>
                     :
                     <span><h3>Tasks left: {this.props.todoList.unfinishedTodoCount}</h3></span>
                     }
+                    <br />
+                    <button 
+                        className="btn btn-primary" 
+                        disabled={this.props.todoList.unfinishedTodoCount > 0}
+                    >
+                        Reset
+                    </button>
                 </div>
             </div>
         );
@@ -70,4 +79,4 @@ const style = {
     listStyle: 'none'
 };
 
-ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('mount'));
+ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('content'));
