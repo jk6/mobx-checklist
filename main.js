@@ -12,7 +12,7 @@ class Todo {
     
     constructor(title) {
         this.title = title;
-        this.reset();
+        this.reset = this.reset.bind(this);
     }
     reset (){
         this.finished = false;
