@@ -2,7 +2,23 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  entry: ['./main.js'],
+  entry: {
+    app: ['./src/main.js'],
+    vendor: [
+      'axios',
+      'bootstrap',
+      'jquery',
+      'lodash',
+      'material-ui',
+      'mobx',
+      'mobx-react',
+      'mobx-react-devtools',
+      'react',
+      'react-bootstrap',
+      'react-dom',
+      'react-tap-event-plugin',
+    ]
+  },
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
@@ -45,9 +61,24 @@ module.exports = {
       }
     ]
   },
-
+   plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: true
+      }
+   }),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')  
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx']
   }
-
 }
