@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const TodoView = observer(({ style, todo }) =>     
-    <li style={style} className="list-group-item">
+    <li style={styles.todos} className="list-group-item">
         <input
             type="checkbox"
             checked={todo.finished}
@@ -17,9 +17,10 @@ const TodoView = observer(({ style, todo }) =>
     </li>
 );
 
-TodoView.propTypes = {
-    style: PropTypes.object.isRequired,
-    todo: PropTypes.object.isRequired
+const styles = {
+    todos: {
+        listStyle: 'none'
+    }
 };
 
 export default TodoView;

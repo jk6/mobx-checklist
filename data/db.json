@@ -1,0 +1,34 @@
+{
+    "todos": [
+        {
+            "id": "1", 
+            "title": "Start Flux Capacitor", 
+            "finished": false
+        },
+        {
+            "id": "2", 
+            "title": "Restart server", 
+            "finished": false
+        },
+        {
+            "id": "3", 
+            "title": "Perform first two tasks", 
+            "finished": false
+        },
+        {
+            "id": "4", 
+            "title": "Drink Coffee", 
+            "finished": false
+        },
+        {
+            "id": "5", 
+            "title": "Watch Silicon Valley", 
+            "finished": false
+        },
+        {
+            "id": "6", 
+            "title": "Perform last task", 
+            "finished": false
+        }
+    ]    
+}

@@ -1,18 +1,43 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { action, inject, observer } from 'mobx-react';
 import TodoView from './TodoView';
 import 'bootstrap/dist/css/bootstrap.css';
 
-@observer
-class TodoListView extends Component {  
-    resetAllTheThings (todos){        
-        todos.map(todo => todo.reset());
-    }  
+@inject('todoList') @observer
+class TodoListView extends Component { 
+    constructor (props){
+        super (props);
+
+        this.loadData = this.loadData.bind(this);
+        this.resetAllTheThings = this.resetAllTheThings.bind(this);
+    } 
+
+    resetAllTheThings (){
+        this.props.todoList.resetTodos();
+    }
+
+    loadData (){
+        this.props.todoList.loadTodos('http://localhost:3001/todos');
+    }
+
+    componentDidMount (){
+        this.loadData();
+    }
     render() {
-        const { unfinishedTodoCount, todos } = this.props.todoList;
+        const { unfinishedTodoCount, data, todos } = this.props.todoList;
+        
+        const todosDisplay = todos.map(todo => {
+            return (
+                <TodoView 
+                    key={todo.id} 
+                    todo={todo}                      
+                />
+            );
+        });
+
         return (
-            <div style={appStyle}>
+            <div style={styles.app}>
                 <Grid>
                     <Row mdOffset={3}>
                         <Col md={8}>
@@ -40,22 +65,13 @@ class TodoListView extends Component {
                     <Row>
                         <Col md={8}>
                             <ul className="list-group">
-                                {todos.map(todo => {
-                                    return (
-                                        <TodoView 
-                                            key={todo.id} 
-                                            todo={todo} 
-                                            style={style} 
-                                        />
-                                    );
-                                })}
+                                {todosDisplay}
                             </ul>
                             
                             <br />
                             <button 
-                                className="btn btn-primary btn-block" 
-                                disabled={unfinishedTodoCount > 0}
-                                onClick={this.resetAllTheThings.bind(this, todos)}
+                                className="btn btn-primary btn-block"                                 
+                                onClick={this.resetAllTheThings}
                                 style={{fontSize: 20}}
                             >                                               
                                 Reset&nbsp;&nbsp;
@@ -69,11 +85,10 @@ class TodoListView extends Component {
     }
 }
 
-const style = {
-    listStyle: 'none'
-};
-const appStyle = {
-    verticalAlign: 'middle'
+const styles = {
+    app: {
+        verticalAlign: 'middle'
+    }
 };
 
 export default TodoListView;
